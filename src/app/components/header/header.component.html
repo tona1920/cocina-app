@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg  ">
+    <div class="container-fluid">
+      <a class="navbar-brand"[routerLink]="['home']" >
+        <img src="../../../assets/img/fs.jpg" style="width: 80px;" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="d-flex" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['home']"  title="Compras"><mat-icon>local_mall</mat-icon></a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a *ngIf="cantidad==0" class="nav-link " [routerLink]="['carrito']" title="Carrito" ><mat-icon >shopping_cart</mat-icon>
+            </a>
+            <a *ngIf="cantidad>0" class="nav-link nav-icon" href="#" data-bs-toggle="dropdown"> <mat-icon matBadge={{cantidad}} matBadgeColor="warn" mat-raised-button >shopping_cart</mat-icon> </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+               <li class="dropdown-header"> Tu tienes {{cantidad}} de productos en el carrito <a [routerLink]="['carrito']"><span class="badge rounded-pill bg-primary p-2 ms-2">Comprar ahora</span></a></li>
+               <div *ngFor="let item of cartItems; index as i">
+                <li>
+                  <hr class="dropdown-divider">
+               </li>
+               <li class="message-item">
+                <a>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img src={{item.imagen}} alt="" class="rounded-circle mx-auto d-block imgC">
+                    </div>
+                    <div class="col-md-8" style="color: black;">
+                      <h4>{{item.nombre}}</h4>
+                      <p>Cantidad: {{item.cantidad}}</p>
+                      <p>Total: ${{ item.cantidad * item.precio | number : '1.1-2'}}</p>
+                    </div>
+                  </div>
+                </a>
+               </li>
+               </div>
+               <li class="dropdown-footer"> <a href="#">Show all notifications</a></li>
+            </ul>
+         </li>
+          <li class="nav-item">
+            <a class="nav-link " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Cuenta"><mat-icon>account_circle</mat-icon>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link "  title="Cerrar Sesion" (click)="logout()"><mat-icon>logout</mat-icon>
+            </a>
+          </li>
+
+        </ul>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"> Detalles de la Cuenta</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h1>Usuario: {{usuario.usuario}}</h1>
+          <h1>Correo: {{usuario.correo}}</h1>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,178 @@
+<div *ngIf="cantidad<1">
+  <div class="alert principal text-center">
+    <h1 class="heading">
+      <mat-icon>shopping_cart</mat-icon> Carrito de compras
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <img src='../../../assets/img/carrito-vacio.svg' class="img-fluid img rounded float-end">
+    </div>
+  </div>
+  <div class="text-center">
+    <br>
+    <h1>¡Su Carrito esta vacio!🙁</h1>
+  </div>
+</div>
+<div *ngIf="cantidad>0">
+  <div class="row">
+    <div class="col-md-7 example-container">
+      <div>
+        <br>
+        <label>¿Qué te gustaría? </label>
+        <mat-radio-group [(ngModel)]="labelPosition">
+          <mat-radio-button value="2">Recoger en tienda</mat-radio-button>
+          <mat-radio-button value="1" (click)="getInit()" >Entrega a domicilio</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <br>
+      <div class="text-center purple" *ngIf="labelPosition == 2">
+        <div class="row">
+          <div class="col-md-2">
+            <mat-label>Sucursal</mat-label>
+          </div>
+          <select [(ngModel)]="opcionSeleccionado" style="width: 80%;" class="form-select"
+            aria-label="Default select example">
+            <option value="0">Selecciona una opción</option>
+            <option *ngFor="let s of sucursales" [value]="s.nombre">{{s.nombre}}</option>
+          </select>
+        </div>
+        <br>
+        <button style="width: 60%;" class="btn btn-outline-success">Hacer Pedido</button>
+      </div>
+
+      <div class="text-center red" *ngIf="labelPosition == 1">
+        <mat-stepper orientation="vertical" [linear]="true" #stepper>
+          <mat-step >
+            <form [formGroup]="oppoSuitsForm" (ngSubmit)="capturarDireccion()">
+              <select formControlName="name"  style="width: 80%;" class="form-select"
+              aria-label="Default select example">
+                <option value="">Selecciona una opción</option>
+                <option (click)="capturarDireccion()" *ngFor="let direccion of direcciones" value={{direccion.id}}>
+                    Estado: {{direccion.estado}}, Municipio: {{direccion.municipio}}, Colonia: {{direccion.colonia}}, Calle: {{direccion.calle}}
+                </option>
+              </select>
+              
+            </form>
+
+
+          <br>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Agregar Nueva direccion
+          </button>
+          <br>
+          <div>
+            <button *ngIf="direccion==0" mat-button matStepperNext type="submit" disabled="true">Next</button>
+            <button *ngIf="direccion!=0" mat-button matStepperNext type="submit" >Next</button>
+          </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Pago</ng-template>
+            <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+            </div>
+          </mat-step>
+        </mat-stepper>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <h2 class="text-center">Resumen del Pedido</h2>
+      <div class="tetx-center">
+        <ul class="list-group">
+          <li class="list-group-item item" *ngFor="let item of cartItems; index as i">
+            <div class="card">
+              <div class="row">
+                <div class="col-md-11">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="img-box">
+                        <img src={{item.imagen}} alt="Trendy Pants and Shoes" class="rounded mx-auto d-block imgC"
+                          style=" margin-top:8%;" />
+                      </div>
+                    </div>
+                    <div class="col-md-8 ">
+                      <div class="card-body">
+                        <h1 class="card-title">{{item.nombre}}</h1>
+                        <div class="row">
+                          <div class="col-md-2">
+                            <button class="buttonC">
+                              <mat-icon>remove</mat-icon>
+                            </button>
+                          </div>
+                          <div class="col-md-2">
+                            <h3 class="text-center">
+                              {{item.cantidad}}
+                            </h3>
+                          </div>
+                          <div class="col-md-2">
+                            <button class="buttonC">
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+                          <div class="col-md">
+                            <h4 class="card-text">
+                              <small class="text-muted">Total: ${{ item.cantidad * item.precio | number : '1.1-2'}}
+                              </small>
+                            </h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <mat-icon class="close" (click)="eliminarItem(this.item.id)">close</mat-icon>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="alert alert-warning text-center">
+        <strong>Total: $</strong>{{total}}
+      </div>
+      <button class="btn btn-outline-danger btn-block mb-2">
+        <mat-icon>remove_shopping_cart</mat-icon> Vaciar Carrito
+      </button>
+    </div>
+  </div>
+
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar Direccion</h1>
+        <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="firstFormGroup" (ngSubmit)="domicilio($event)">
+      <div class="modal-body">
+        
+          <ng-template matStepLabel>Datos</ng-template>
+          <h3>Llena el formulario con los siguientes datos</h3>
+          <mat-form-field style="width: 80%;" appearance="fill">
+            <mat-label>Estado</mat-label>
+            <input matInput placeholder="Calle XXX Colonia XXX " formControlName="estado" required>
+          </mat-form-field>
+          <mat-form-field style="width: 80%;" appearance="fill">
+            <mat-label>Municipio</mat-label>
+            <input matInput placeholder="Calle XXX Colonia XXX " formControlName="municipio" required>
+          </mat-form-field>
+          <mat-form-field style="width: 80%;" appearance="fill">
+            <mat-label>Colonia</mat-label>
+            <input matInput placeholder="Calle XXX Colonia XXX " formControlName="colonia" required>
+          </mat-form-field>
+          <mat-form-field style="width: 80%;" appearance="fill">
+            <mat-label>Calle</mat-label>
+            <input matInput placeholder="Calle XXX Colonia XXX " formControlName="calle" required>
+          </mat-form-field>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-outline-success"  >Agregar Dirección</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>

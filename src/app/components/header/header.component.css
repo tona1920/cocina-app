@@ -1,0 +1,11 @@
+.navbar{
+    background: #354F52;
+    color: white;
+}
+.navbar a{
+    color: white;
+}
+.imgC{
+    width: 100%;
+    max-width: 70px;
+}

@@ -1,0 +1,245 @@
+.home {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: url("../../../assets/img/home-bg.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .home .content {
+    flex: 1 1 40rem;
+    padding-top: 4rem;
+  }
+  
+  .home .image {
+    flex: 1 1 40rem;
+  }
+  .home .boton{
+    width: 100%;
+    text-align: center;
+  }
+  .home .image img {
+    width: 100%;
+    padding: 1rem;
+    animation: float 3s linear infinite;
+  }
+  
+  .home .content h3 {
+    font-size: 60px;
+    color: #333;
+  }
+  
+  .home .content p {
+    font-size: 25px;
+    color: #666;
+  }
+
+  .speciality .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .speciality  h3 {
+    font-size: 2.5rem;
+    color: #333;
+  }
+  .wrap{
+    max-width: 1100px;
+    margin: 50px auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  
+  .tarjeta-wrap{
+    margin: 10px;
+    -webkit-perspective: 800;
+    perspective: 800;
+  }
+  
+  .tarjeta{
+    width: 300px;
+    height: 350px;
+    background: #F29720;
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: .7s ease;
+    transition: .7s ease;
+    -webkit-box-shadow: 0px 10px 15px -5px rgba(0,0,0,0.65);
+    box-shadow: 0px 10px 15px -5px rgba(0,0,0,0.65);
+  
+  }
+  
+  .adelante, .atras{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .adelante{
+    width: 100%;
+  }
+  
+  .atras{
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  
+    padding: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  
+    text-align: center;
+    color: #fff;
+    font-family: "open sans";
+    background: #F29720;
+  }
+  
+  .tarjeta-wrap:hover .tarjeta{
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+  
+  .card1{
+    background-image: url(https://s3-sa-east-1.amazonaws.com/api-lac.production/images/item_images/2021-04-11/ecb85ab72216ce0af109fa86fe6c3698.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  
+  .card2{
+    background-image: url(https://www.dominos.com.mx/images/masa_orilla_s-380x251.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  
+  .card3{
+    background-image: url(https://mejorconsalud.as.com/wp-content/uploads/2017/10/4-Postres-caseros-nutritivos-y-con-muy-pocos-ingredientes-768x512.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  } 
+  .card4{
+    background-image: url(https://www.gastrolabweb.com/u/fotografias/m/2021/12/2/f608x342-22413_52136_56.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  } 
+
+  /* shopitem  */
+.specificitem{
+  justify-content: center;
+  display: flex;
+  margin: 20px auto;
+  flex-wrap: wrap;
+
+}
+
+
+.specificproduct{
+  margin: 10px;
+  height: 350px;
+  width: 350px;
+  display: inline-block;
+  transition: 0.5s;
+  font-family: 'Potta One', cursive;
+}
+
+.item, img{
+  height: 70% !important;
+  width:  100% !important;
+  background-size: cover;
+}
+
+
+.item_head{
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 16px;
+  margin-top: 4px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.item_para{
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 13px;
+  color: #5d6a6e;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', 'cursive' , Arial, sans-serif
+}
+
+.item_price{
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 13px;
+  color: #5d6a6e;
+}
+
+
+
+.specificproduct:focus,
+.specificproduct:hover{
+   transform: scale(1);
+   z-index: 4;
+   background-color: rgb(221, 205, 205);
+}
+
+.middle{
+    transition: .0.7s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 15%;
+    transform: translate(-50%, -50%);
+}
+
+
+.specificproduct:hover .middle{
+  opacity: 1;
+}
+
+.text{
+  color: white;
+  font-size: 16px;
+  padding-top: 16px;
+  text-align: center;
+  justify-items: center;
+}
+
+
+.iconproductivity{
+  background-color: #D1C286;
+  color: white;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 48px;
+  font-size: 30px;
+}
+/* shopend  */

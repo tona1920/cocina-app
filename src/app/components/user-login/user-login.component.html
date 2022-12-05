@@ -1,0 +1,101 @@
+<div class="limiter">
+    <div class="main">
+      <div class="contenedor__todo">
+        <div class="caja__trasera">
+            <div class="caja__trasera-login">
+                <h3>¿Ya tienes una cuenta?</h3>
+                <p>Inicia sesión para entrar en la página</p>
+                <button id="btn__iniciar-sesion">Iniciar Sesión</button>
+            </div>
+            <div class="caja__trasera-register">
+                <h3>¿Aún no tienes una cuenta?</h3>
+                <p>Regístrate para que puedas iniciar sesión</p>
+                <button id="btn__registrarse">Regístrarse</button>
+            </div>
+        </div>
+    
+        <!--Formulario de Login y registro-->
+        <div class="contenedor__login-register">
+            <!--Login-->
+            <form class="formulario__login example-form" [formGroup]="form"  (ngSubmit)="login($event)">
+              <h2>Iniciar Sesión</h2>
+              <mat-form-field class="input" appearance="fill">
+                <mat-label>Usuario</mat-label>
+                <input matInput placeholder="Type your email" type="email" formControlName='email'>
+                <mat-icon matSuffix>account_circle</mat-icon>
+                <mat-error *ngIf="form.controls.email.hasError('email') && !form.controls.email.hasError('required')">
+                  Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="form.controls.email.hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field class="input" appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput  placeholder="Type your password" type="password" formControlName='password'>
+                <mat-icon matSuffix>lock_outline</mat-icon>
+                <mat-error *ngIf="form.controls.password.hasError('required')">
+                  Password is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+  
+              <button type="submit"  class="btn-btn-primary"> Entrar </button>
+  
+            </form>
+  
+            <!--Register-->
+  
+            <form class="formulario__register example-form" [formGroup]="formR" (ngSubmit)="registro($event)">
+              <h2>Regístrarse</h2>
+              <mat-form-field class="input" appearance="fill">
+                <mat-label>Usuario</mat-label>
+                <input matInput placeholder="Ex. Pizza" type="text" formControlName='user'>
+                <mat-icon matSuffix>account_circle</mat-icon>
+                <mat-error *ngIf="formR.controls.user.hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field class="input" appearance="fill">
+                <mat-label>Correo Electronico</mat-label>
+                <input matInput placeholder="Ex. Pizza" type="email" formControlName='email' >
+                <mat-icon matSuffix>mail</mat-icon>
+                <mat-error *ngIf="formR.controls.email.hasError('email') && !formR.controls.email.hasError('required')">
+                    Please enter a valid email address
+                  </mat-error>
+                  <mat-error *ngIf="formR.controls.email.hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field class="input" appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput placeholder="Ex. Pizza" type="password" id="password" formControlName='password'>
+                <mat-icon matSuffix>
+                    <a id="mostrar" type="button" onclick="mostrarContrasena()">visibility_off</a>
+                    <a id="ocultar" style="visibility:hidden; margin-left: -100%;" type="button" onclick="mostrarContrasena()">visibility</a>
+                </mat-icon>
+                <mat-error *ngIf="formR.controls.password.hasError('required')">
+                    Password is <strong>required</strong>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field class="input" appearance="fill">
+                <mat-label>Telefono</mat-label>
+                <span matPrefix>+1 &nbsp;</span>
+                <input type="tel" matInput placeholder="555-555-1234" formControlName="telefono">
+                <mat-icon matSuffix>mode_edit</mat-icon>
+                <mat-error *ngIf="formR.controls.telefono.hasError('required')">
+                    El número de telefono es <strong>requerido</strong>
+                  </mat-error>
+              </mat-form-field>
+
+              <button type="submit" class="btn-btn-primary">Registrarse </button>
+  
+            </form>
+        </div>
+    </div>
+    </div>
+  </div>
+  
