@@ -1,4 +1,3 @@
-import { getHtmlTagDefinition } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
@@ -140,7 +139,6 @@ export class CarritoComponent implements OnInit {
   }
   crearPago(){
     this.cartItems.forEach(data=>{
-      
       this.pago = new PagoDTO(data.nombre,data.imagen,data.descripcion,data.precio,data.cantidad,this.user.id,this.direccion,data.producto)
       this.pagoService.createPago(this.pago).subscribe(data=>{
         alert(JSON.stringify(data))

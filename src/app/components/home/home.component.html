@@ -5,7 +5,7 @@
 		<p>Carne de res a la parrilla, jugosos tomates, lechuga recien cortada, mayonesa, pepinos y cebollas en rodajas,
 			sobre un pan suave con ajonjoli!</p>
 		<div class="boton">
-			<a href="#" type="button" class="btn btn-dark">order now</a>
+			<a  type="button" class="btn btn-dark">order now</a>
 		</div>
 
 	</div>
@@ -86,99 +86,54 @@
 
 <h1>Combos</h1>
 <section class="specificitem">
-	<div class="specificproduct">
-		<img
-		src="../../../assets/img/home-img.png"
-		alt="">
-	  <h4 class="item_head">Beauty trending</h4>
-	  <p class="item_para">Lorem ipsum dolor sit.
-	  </p>
-	  <p class="item_price">price $85</p>
-	  <div class="middle" >
-		 <div class="row">
-			<button class="btn btn-primary col-md-5" type="button"><mat-icon>visibility</mat-icon> </button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
+	<div *ngFor="let item of itemsProductos; index as i">
+		<div class="specificproduct">
+			<img
+			src={{item.imagen}}
+			alt="">
+		  <h4 class="item_head">{{item.nombre}}</h4>
+		  <p class="item_para">{{item.descripcion}}
+		  </p>
+		  <p class="item_price">Precio ${{item.precio}}</p>
+		  <div class="middle" >
+			 <div class="row">
+				<button type="button"  class="btn btn-primary col-md-5" (click)="detalleProducto(item.id)"><mat-icon>visibility</mat-icon> </button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
+			  </div>  
 		  </div>
-	  </div>
+		</div>
+
 	</div>
-	<div class="specificproduct">
-		<img
-		src="../../../assets/img/home-img.png"
-		alt="">
-	  <h4 class="item_head">Beauty trending</h4>
-	  <p class="item_para">Lorem ipsum dolor sit.
-	  </p>
-	  <p class="item_price">price $85</p>
-	  <div class="middle" >
-		 <div class="row">
-			<button class="btn btn-primary col-md-5" type="button"><mat-icon>visibility</mat-icon> </button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
-		  </div>
-	  </div>
-	</div>
-	<div class="specificproduct">
-		<img
-		src="../../../assets/img/home-img.png"
-		alt="">
-	  <h4 class="item_head">Beauty trending</h4>
-	  <p class="item_para">Lorem ipsum dolor sit.
-	  </p>
-	  <p class="item_price">price $85</p>
-	  <div class="middle" >
-		 <div class="row">
-			<button class="btn btn-primary col-md-5" type="button"><mat-icon>visibility</mat-icon> </button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
-		  </div>
-	  </div>
-	</div>
-	<div class="specificproduct">
-		<img
-		src="../../../assets/img/home-img.png"
-		alt="">
-	  <h4 class="item_head">Beauty trending</h4>
-	  <p class="item_para">Lorem ipsum dolor sit.
-	  </p>
-	  <p class="item_price">price $85</p>
-	  <div class="middle" >
-		 <div class="row">
-			<button class="btn btn-primary col-md-5" type="button"><mat-icon>visibility</mat-icon> </button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
-		  </div>
-	  </div>
-	</div>
-	<div class="specificproduct">
-		<img
-		src="../../../assets/img/home-img.png"
-		alt="">
-	  <h4 class="item_head">Beauty trending</h4>
-	  <p class="item_para">Lorem ipsum dolor sit.
-	  </p>
-	  <p class="item_price">price $85</p>
-	  <div class="middle" >
-		 <div class="row">
-			<button class="btn btn-primary col-md-5" type="button"><mat-icon>visibility</mat-icon> </button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
-		  </div>
-	  </div>
-	</div><div class="specificproduct">
-		<img
-		src="../../../assets/img/home-img.png"
-		alt="">
-	  <h4 class="item_head">Beauty trending</h4>
-	  <p class="item_para">Lorem ipsum dolor sit.
-	  </p>
-	  <p class="item_price">price $85</p>
-	  <div class="middle" >
-		 <div class="row">
-			<button class="btn btn-primary col-md-5" type="button"><mat-icon>visibility</mat-icon> </button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
-		  </div>
-	  </div>
+	<button type="button" #closebutton class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" hidden>
+		Launch static backdrop modal
+	  </button>
+	<div *ngFor="let item of itemProducto; index as i">
+		<div class="modal fade" #modalMensaje id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h1 class="modal-title fs-5" id="staticBackdropLabel">{{item.nombre}}</h1>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				  <p>Descripción:</p>
+				  <p>{{item.descripcion}}</p>
+				  <p>Extras:</p>
+				  <form [formGroup]="form" (ngSubmit)="submit()" novalidate >
+					<div *ngFor="let country of countries; let i=index" class="form-check form-check-inline">
+					  <input class="form-check-input" type="checkbox" formArrayName="selectedCountries" [value]="country.value" (change)="onCheckboxChange($event)" 
+					  />
+					  <label class="form-check-label" for="inlineCheckbox2">{{ country.name}}</label>
+					</div>
+				  </form>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary" (click)="crearCarrito()">Agregar al carrito</button>
+				</div>
+			  </div>
+			</div>
+		</div>
 	</div>
 </section>
