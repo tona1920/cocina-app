@@ -99,7 +99,7 @@
 			 <div class="row">
 				<button type="button"  class="btn btn-primary col-md-5" (click)="detalleProducto(item.id)"><mat-icon>visibility</mat-icon> </button>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<button class="btn btn-success col-md-5"><mat-icon>add_shopping_cart</mat-icon></button>
+				<button class="btn btn-success col-md-5" (click)="detalleProducto1(item.id)"><mat-icon>add_shopping_cart</mat-icon></button>
 			  </div>  
 		  </div>
 		</div>
@@ -114,26 +114,88 @@
 			  <div class="modal-content">
 				<div class="modal-header">
 				  <h1 class="modal-title fs-5" id="staticBackdropLabel">{{item.nombre}}</h1>
-				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" #closebuttonModal aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				  <p>Descripción:</p>
+					<div class="row">
+						<div class="col-md-4">
+							<br>
+							<img src={{item.imagen}} alt="">
+						</div>
+						<div class="col-md-8">
+							<p>Descripción:</p>
 				  <p>{{item.descripcion}}</p>
+				 <form #gfg = "ngForm">
+					Cantidad: <input type="number" name = 'name' value="42" ngModel>
+				</form>
+				
 				  <p>Extras:</p>
-				  <form [formGroup]="form" (ngSubmit)="submit()" novalidate >
-					<div *ngFor="let country of countries; let i=index" class="form-check form-check-inline">
-					  <input class="form-check-input" type="checkbox" formArrayName="selectedCountries" [value]="country.value" (change)="onCheckboxChange($event)" 
-					  />
-					  <label class="form-check-label" for="inlineCheckbox2">{{ country.name}}</label>
+				  <div class="form-check form-check-inline">
+					<input class="form-check-input" type="checkbox" id="inlineCheckbox1" (click)="setOpcion1()" value="option1">
+					<label class="form-check-label" for="inlineCheckbox1">
+						<span *ngIf="item.id==1">Extra Queso</span>
+						<span *ngIf="item.id==2">Lechuga Extra</span>
+						<span *ngIf="item.id==3">Extra Carne</span>
+					</label>
+				  </div>
+				  <div class="form-check form-check-inline">
+					<input class="form-check-input" type="checkbox" id="inlineCheckbox2" (click)="setOpcion2()" value="option2">
+					<label class="form-check-label" for="inlineCheckbox2">
+						<span *ngIf="item.id==1">Peperoni Extra</span>
+						<span *ngIf="item.id!=1">Jitomate Extra</span>
+					</label>
+				  </div>
+				  <div class="form-check form-check-inline">
+					<input class="form-check-input" type="checkbox" id="inlineCheckbox2" (click)="setOpcion3()"  value="option2">
+					<label class="form-check-label" for="inlineCheckbox2">Cebolla Caramelizada</label>
+				  </div>
+						</div>
 					</div>
-				  </form>
+				  
 				</div>
 				<div class="modal-footer">
 				  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				  <button type="button" class="btn btn-primary" (click)="crearCarrito()">Agregar al carrito</button>
+				  <button type="button" class="btn btn-primary" (click)="crearCarrito(gfg.value.name)" >Agregar al carrito</button>
 				</div>
 			  </div>
 			</div>
 		</div>
 	</div>
+	<button #closebutton1 type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" hidden>
+		Launch static backdrop modal
+	  </button>
+	  
+	  <!-- Modal -->
+	  <div *ngFor="let item of itemProducto; index as i" class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">{{item.nombre}}</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" #closebuttonModal1 aria-label="Close"></button>
+			  </div>
+			  <div class="modal-body">
+				  <div class="row">
+					  <div class="col-md-4">
+						  <br>
+						  <img src={{item.imagen}} alt="">
+					  </div>
+					  <div class="col-md-8">
+						  <p>Descripción:</p>
+				<p>{{item.descripcion}}</p>
+			   <form #gfg = "ngForm">
+				  Cantidad: <input type="number" name = 'name' value="42" ngModel>
+			  </form>
+			  
+				</div>
+			 </div>
+				
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" (click)="crearCarrito2(gfg.value.name)" >Agregar al carrito</button>
+			  </div>
+			</div>
+		  </div>
+	  </div>
 </section>
+

@@ -21,7 +21,7 @@
         <br>
         <label>¿Qué te gustaría? </label>
         <mat-radio-group [(ngModel)]="labelPosition">
-          <mat-radio-button value="2">Recoger en tienda</mat-radio-button>
+          <mat-radio-button value="2" (click)="getUsuarioDireccion1()">Recoger en tienda</mat-radio-button>
           <mat-radio-button value="1" (click)="getInit()" >Entrega a domicilio</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -31,14 +31,20 @@
           <div class="col-md-2">
             <mat-label>Sucursal</mat-label>
           </div>
-          <select [(ngModel)]="opcionSeleccionado" style="width: 80%;" class="form-select"
+          <form [formGroup]="oppoSuitsForm" (ngSubmit)="capturarDireccion()">
+            <select formControlName="name"  style="width: 80%;" class="form-select"
             aria-label="Default select example">
-            <option value="0">Selecciona una opción</option>
-            <option *ngFor="let s of sucursales" [value]="s.nombre">{{s.nombre}}</option>
-          </select>
+              <option value="">Selecciona una opción</option>
+              <option (click)="capturarDireccion()" *ngFor="let direccion of direcciones,index as i" value={{direccion.id}}>
+                 Sucursal {{i+1}}
+              </option>
+            </select>
+            
+          </form>
         </div>
         <br>
-        <button style="width: 60%;" class="btn btn-outline-success">Hacer Pedido</button>
+        <button *ngIf="direccion==0" style="width: 60%;" class="btn btn-outline-success" disabled>Hacer Pedido</button>
+        <button *ngIf="direccion!=0" style="width: 60%;" class="btn btn-outline-success" (click)="crearPago1()">Hacer Pedido</button>
       </div>
 
       <div class="text-center red" *ngIf="labelPosition == 1">
@@ -94,21 +100,12 @@
                     <div class="col-md-8 ">
                       <div class="card-body">
                         <h1 class="card-title">{{item.nombre}}</h1>
+                        <p>{{item.descripcion}}</p>
                         <div class="row">
-                          <div class="col-md-2">
-                            <button class="buttonC">
-                              <mat-icon>remove</mat-icon>
-                            </button>
-                          </div>
-                          <div class="col-md-2">
+                          <div class="col-md-5">
                             <h3 class="text-center">
-                              {{item.cantidad}}
+                              Cantidad: {{item.cantidad}}
                             </h3>
-                          </div>
-                          <div class="col-md-2">
-                            <button class="buttonC">
-                              <mat-icon>add</mat-icon>
-                            </button>
                           </div>
                           <div class="col-md">
                             <h4 class="card-text">
@@ -132,7 +129,7 @@
       <div class="alert alert-warning text-center">
         <strong>Total: $</strong>{{total}}
       </div>
-      <button class="btn btn-outline-danger btn-block mb-2">
+      <button class="btn btn-outline-danger btn-block mb-2" (click)="vaciarCarrrito()">
         <mat-icon>remove_shopping_cart</mat-icon> Vaciar Carrito
       </button>
     </div>

@@ -19,14 +19,14 @@ export class HeaderComponent implements OnInit {
     this.storageService.getUser().forEach(element => {
       this.usuario=element;
     });
-    this.itemsCarrto();
-    this.itemsCarrito();
+
     setInterval(() => {
       this.itemsCarrto(); 
-      }, 5000);
-      setInterval(() => {
-        this.itemsCarrito(); 
-        }, 5000);
+      }, 100);
+
+    setInterval(() => {
+      this.itemsCarrito(); 
+      }, 100);
   }
   
   logout(){

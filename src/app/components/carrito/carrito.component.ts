@@ -100,11 +100,13 @@ export class CarritoComponent implements OnInit {
   getUsuarioDireccion(){
     this.direccionesSercive.findAllUsersId(this.user.id).subscribe(data=>this.direcciones=data);
   }
+  getUsuarioDireccion1(){
+    this.direccionesSercive.findAllUsersId(6).subscribe(data=>this.direcciones=data);
+  }
 
   capturarDireccion(){
     const value=this.oppoSuitsForm.value
     this.direccion= Number(value.name);
-    alert(this.direccion);
   }
 
   getItemsList(): any[] {
@@ -130,18 +132,78 @@ export class CarritoComponent implements OnInit {
   }
 
   eliminarItem(id:number){
+    let total=0;
     this.cartItems = this.cartItems.filter(h => h.id != id);
+    this.cartItems.forEach(item=>{
+      total += item.cantidad * item.precio;
+    });
+    this.total=total;
     this.carritoService.deleteCarrito(id).subscribe(data=>{
       if(data.length>1){
         console.log(data);
       }
     }); 
   }
+
+  vaciarCarrrito(){
+    this.cantidad=0;
+    this.cartItems.forEach(data=>{
+      this.carritoService.deleteCarrito(data.id).subscribe(dato=>{
+        if(dato.length>1){
+          console.log(dato);
+        }
+      });
+    });
+  }
   crearPago(){
     this.cartItems.forEach(data=>{
       this.pago = new PagoDTO(data.nombre,data.imagen,data.descripcion,data.precio,data.cantidad,this.user.id,this.direccion,data.producto)
-      this.pagoService.createPago(this.pago).subscribe(data=>{
-        alert(JSON.stringify(data))
+      this.pagoService.createPago(this.pago).subscribe({
+        next: (response) => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Se ha pagado tu Orden a tu carrito',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.vaciarCarrrito();
+        }, 
+        error: () =>{
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Error al pagar tu Orden al carrito',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      });
+    })
+  }
+  crearPago1(){
+    this.cartItems.forEach(data=>{
+      this.pago = new PagoDTO(data.nombre,data.imagen,data.descripcion,data.precio,data.cantidad,this.user.id,this.direccion,data.producto)
+      this.pagoService.createPago(this.pago).subscribe({
+        next: (response) => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Se ha creado tu Orden a tu carrito',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.vaciarCarrrito();
+        }, 
+        error: () =>{
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Error al crear tu Orden al carrito',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
       });
     })
   }
