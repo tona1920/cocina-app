@@ -73,6 +73,10 @@ export class CarritoComponent implements OnInit {
     this.initConfig();
     this.getUsuarioDireccion();
   }
+  getInit1(){
+    this.initConfig1();
+    this.getUsuarioDireccion1();
+  }
 
   getUsuario(){
     this.storageService.getUser().forEach(element => {
@@ -156,6 +160,10 @@ export class CarritoComponent implements OnInit {
     });
   }
   crearPago(){
+    this.pagoService.createCorreo(this.user.id).subscribe(data=>{      
+       console.log(data); 
+   });
+   setTimeout(()=>{
     this.cartItems.forEach(data=>{
       this.pago = new PagoDTO(data.nombre,data.imagen,data.descripcion,data.precio,data.cantidad,this.user.id,this.direccion,data.producto)
       this.pagoService.createPago(this.pago).subscribe({
@@ -179,7 +187,9 @@ export class CarritoComponent implements OnInit {
           });
         }
       });
-    })
+    }),1000
+   });
+
   }
   crearPago1(){
     this.cartItems.forEach(data=>{
@@ -247,6 +257,7 @@ export class CarritoComponent implements OnInit {
       onClientAuthorization: (data) => {
         console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point',
         JSON.stringify(data));
+        this.pagoService.createCorreo(this.user.id);
         this.crearPago();
       },
       onCancel: (data, actions) => {
@@ -268,4 +279,63 @@ export class CarritoComponent implements OnInit {
     };
   }
 
+  private initConfig1(): void {
+    this.payPalConfig = {
+      currency: 'MXN',
+      clientId: environment.clientId,
+      // tslint:disable-next-line: no-angle-bracket-type-assertion
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: 'MXN',
+            value: this.getTotal().toString(),
+            breakdown: {
+              item_total: {
+                currency_code: 'MXN',
+                value: this.getTotal().toString()
+              }
+            }
+          },
+          items: this.getItemsList()
+        }]
+      },
+      advanced: {
+        commit: 'true'
+      },
+      style: {
+        label: 'paypal',
+        layout: 'vertical'
+      },
+      onApprove: (data, actions) => {
+        //this.spinner.show();
+        console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        actions.order.get().then(details => {
+          console.log('onApprove - you can get full order details inside onApprove: ', details);
+        });
+
+      },
+      onClientAuthorization: (data) => {
+        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point',
+        JSON.stringify(data));
+        this.crearPago1();
+      },
+      onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions,JSON.stringify(data));
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Pago cancelado',
+          showConfirmButton: false,
+          timer: 50000
+        })
+      },
+      onError: err => {
+        console.log('OnError', err);
+      },
+      onClick: (data, actions) => {
+        console.log('onClick', data, actions,JSON.stringify(data));
+      },
+    };
+  }
 }

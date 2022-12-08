@@ -21,7 +21,7 @@
         <br>
         <label>¿Qué te gustaría? </label>
         <mat-radio-group [(ngModel)]="labelPosition">
-          <mat-radio-button value="2" (click)="getUsuarioDireccion1()">Recoger en tienda</mat-radio-button>
+          <mat-radio-button value="2" (click)="getInit1()">Recoger en tienda</mat-radio-button>
           <mat-radio-button value="1" (click)="getInit()" >Entrega a domicilio</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -31,20 +31,33 @@
           <div class="col-md-2">
             <mat-label>Sucursal</mat-label>
           </div>
-          <form [formGroup]="oppoSuitsForm" (ngSubmit)="capturarDireccion()">
-            <select formControlName="name"  style="width: 80%;" class="form-select"
-            aria-label="Default select example">
-              <option value="">Selecciona una opción</option>
-              <option (click)="capturarDireccion()" *ngFor="let direccion of direcciones,index as i" value={{direccion.id}}>
-                 Sucursal {{i+1}}
-              </option>
-            </select>
-            
-          </form>
+        <mat-stepper orientation="vertical" [linear]="true" #stepper>
+          <mat-step >
+            <form [formGroup]="oppoSuitsForm" (ngSubmit)="capturarDireccion()">
+              <select formControlName="name"  style="width: 80%;" class="form-select"
+              aria-label="Default select example">
+                <option value="">Selecciona una opción</option>
+                <option (click)="capturarDireccion()" *ngFor="let direccion of direcciones" value={{direccion.id}}>
+                    Estado: {{direccion.estado}}, Municipio: {{direccion.municipio}}, Colonia: {{direccion.colonia}}, Calle: {{direccion.calle}}
+                </option>
+              </select>
+              
+            </form>
+          <br>
+          <div>
+            <button *ngIf="direccion==0" mat-button matStepperNext type="submit" disabled="true">Next</button>
+            <button *ngIf="direccion!=0" mat-button matStepperNext type="submit" >Next</button>
+          </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Pago</ng-template>
+            <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+            </div>
+          </mat-step>
+        </mat-stepper>
         </div>
-        <br>
-        <button *ngIf="direccion==0" style="width: 60%;" class="btn btn-outline-success" disabled>Hacer Pedido</button>
-        <button *ngIf="direccion!=0" style="width: 60%;" class="btn btn-outline-success" (click)="crearPago1()">Hacer Pedido</button>
       </div>
 
       <div class="text-center red" *ngIf="labelPosition == 1">
